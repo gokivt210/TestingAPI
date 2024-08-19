@@ -16,25 +16,23 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 
 public abstract class GenerateReports {
-	
 	public static ExtentHtmlReporter reporter;
-	public static ExtentReports extent;
+	public static ExtentReports extentReports;
 	public static ExtentTest test, node;
 	
 	public String testcaseName, testcaseDec, author, category;
 
-	
 	@BeforeSuite
 	public void startReport() {
 		reporter = new ExtentHtmlReporter("./reports/result.html");
-		reporter.setAppendExisting(false); 
-		extent = new ExtentReports();
-		extent.attachReporter(reporter);
+		reporter.setAppendExisting(false);
+		extentReports = new ExtentReports();
+		extentReports.attachReporter(reporter);
 	}
 	
     @BeforeClass
 	public void report() throws IOException {
- 		test = extent.createTest(testcaseName, testcaseDec);
+ 		test = extentReports.createTest(testcaseName, testcaseDec);
  		test.assignAuthor(author);
 		test.assignCategory(category);  
 	}
@@ -42,31 +40,20 @@ public abstract class GenerateReports {
     //public abstract long takeSnap();
     
     public  static void reportStep(String dec, String status ) {
-    	
     	if(status.equalsIgnoreCase("pass")) {
     	  test.log(Status.PASS, dec);
-    	   	  
-    	}else if (status.equalsIgnoreCase ("fail")) {
+    	}
+		else if (status.equalsIgnoreCase ("fail")) {
     		test.log(Status.FAIL, dec);
     	}
 	
 	}
     
     
-  
-    
-    
-    //public static  void reportStep(String desc, String status) {
-		//reportStep(desc, status, true);
-	//}
-
-    
-    
-    
-    
     @AfterSuite
     public void stopReport() {
-    	extent.flush();
+
+		extentReports.flush();
     }
 
 }

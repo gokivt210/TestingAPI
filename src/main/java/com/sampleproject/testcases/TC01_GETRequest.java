@@ -2,6 +2,7 @@ package com.sampleproject.testcases;
 
 import java.io.IOException;
 
+import com.sampleproject.reports.Readproperty;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -22,11 +23,10 @@ public class TC01_GETRequest extends CommonMethods {
 	}
 	
 	@Test (dataProvider ="fetchData")
-	public void getEmployeeDetails(String baseURI, String UserId) {
-		
-		    RestAssured.baseURI=baseURI;
-		    httprequest = RestAssured.given(); 
-		   
+	public void getEmployeeDetails(String UserId) {
+
+		    RestAssured.baseURI= Readproperty.readProperty("Url");
+		    httprequest = RestAssured.given();
 		    CommonMethods.getResponseBody(UserId);
 		    CommonMethods.getStatusCode(UserId);
 		    CommonMethods.getStatusLine(UserId);
@@ -37,7 +37,7 @@ public class TC01_GETRequest extends CommonMethods {
 	
 	@DataProvider(name ="fetchData")
 	public String[][] getdata() throws IOException{
-		return DataLibrary.readdata();
+		return DataLibrary.readdata("Url");
 	}
 
 }
