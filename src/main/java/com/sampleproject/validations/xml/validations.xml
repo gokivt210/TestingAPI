@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--parallel="tests"--><!--not yet implemented-->
+<suite  name="API validations">
+   <!-- <listeners>
+        <listener class-name="com.sampleproject.listeners.Listnerss"></listener>
+    </listeners>-->
+    <test thread-count="5" name="Test">
+        <classes>
+            <class name="com.sampleproject.testcases.TC03_PATCHRequest"></class>
+        </classes>
+    </test>
+
+</suite>

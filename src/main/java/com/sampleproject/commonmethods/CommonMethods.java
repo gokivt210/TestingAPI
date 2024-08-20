@@ -18,14 +18,13 @@ public class CommonMethods extends GenerateReports {
 	public static String createdId=null;
 	static String token= Readproperty.readProperty("Token");
  public static void getResponseBody(String UserId)	{
-
 	 Response response = httprequest.header("Authorization","Bearer "+token).request(Method.GET,"/"+UserId);
 	 String responseBody = response.getBody().asString();
 	 System.out.println("The Response Body is:" +responseBody);
 	 if (responseBody!=null) {
-	 reportStep("Response Body generated successfully","pass");
+	 reportStep("Get Response Body generated successfully","pass");
 	 } else {
-	 reportStep("Issue in generating the response body","fail");
+	 reportStep("Issue in generating the get response body","fail");
 	 }
 	 
  }
@@ -38,9 +37,9 @@ public class CommonMethods extends GenerateReports {
  }
  
  public static void getStatusLine(String UserId) {
-	 Response response = httprequest.header("Authorization","Bearer "+token).request(Method.GET,"/"+UserId+"");
+	 Response response = httprequest.request(Method.GET,"/"+UserId+"");
 	 String statusLine = response.getStatusLine();
-	 System.out.println("The Status code of the response is:" +statusLine);
+	 System.out.println("The Status lin of the response is:" +statusLine);
 	
  }
  
@@ -91,9 +90,9 @@ public class CommonMethods extends GenerateReports {
 			Assert.assertTrue(false);
 		}
 		if (responseBody!=null) {
-			reportStep("Response Body generated successfully","pass");
+			reportStep("Post Response Body generated successfully","pass");
 		} else {
-			reportStep("Issue in generating the response body","fail");
+			reportStep("Issue in generating the post response body","fail");
 		}
 
 		JsonPath js=new JsonPath(responseBody);
@@ -102,8 +101,28 @@ public class CommonMethods extends GenerateReports {
 
 	}
 
- 
-	
+	public void readPatchResponseData(String userId){
+	 Response response=httprequest.pathParam("userid",userId).request(Method.PUT, "{userid}");
+	 String sResponse=response.getBody().asString();
+	 JsonPath jsonPath=new JsonPath(sResponse);
+	 int stauscode=response.getStatusCode();
+		if (sResponse!=null) {
+			reportStep("Patch Response Body generated successfully","pass");
+		} else {
+			reportStep("Issue in generating the patch response body","fail");
+		}
+	 if (stauscode==200){
+		 Assert.assertTrue(true);
+		 System.out.println("user update successful");
+	 }
+	 else {
+		 Assert.assertTrue(false);
+		 System.out.println("user update not successful");
+	 }
+		String statusLine = response.getStatusLine();
+		System.out.println("The Status code of the response is:" +statusLine);
+
+	}
 
 
 }
